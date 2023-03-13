@@ -1,5 +1,10 @@
-# Build stage
+###########               ###########
+###########  BUILD STAGE  ############
+###########               ###########
 FROM rust:1.66.1 as build
+
+# Install pkg-config
+RUN apt-get update && apt-get install -y pkg-config
 
 # Set the working directory to /app
 WORKDIR /app
@@ -13,7 +18,10 @@ COPY . .
 # Build the application
 RUN cargo build --release
 
-# Deploy stage
+###########                ###########
+###########  DEPLOY STAGE  ############
+###########                ###########
+
 FROM gcr.io/distroless/cc-debian11
 
 # Set the working directory to /app
