@@ -1,10 +1,11 @@
-###########               ###########
-###########  BUILD STAGE  ############
-###########               ###########
+################               ################
+################  BUILD STAGE  #################
+################               ################
+
 FROM rust:1.66.1 as build
 
-# Install pkg-config
-RUN apt-get update && apt-get install -y pkg-config
+# Install pkg-config and pango
+RUN apt-get update && apt-get install -y pkg-config libpango-1.0-0
 
 # Set the working directory to /app
 WORKDIR /app
@@ -18,9 +19,10 @@ COPY . .
 # Build the application
 RUN cargo build --release
 
-###########                ###########
-###########  DEPLOY STAGE  ############
-###########                ###########
+
+################                ################
+################  DEPLOY STAGE  #################
+################                ################
 
 FROM gcr.io/distroless/cc-debian11
 
@@ -32,3 +34,5 @@ COPY --from=build /app/target/release/chat-gpt-desktop-util .
 
 # Start the application
 CMD ["./chat-gpt-desktop-util"]
+
+
