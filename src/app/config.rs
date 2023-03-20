@@ -23,3 +23,5 @@ impl Config {
             let config_data = fs::read_to_string(config_path).expect("Failed to read config file");
             serde_json::from_str(&config_data).expect("Failed to parse config file")
         }
+    }
+}
